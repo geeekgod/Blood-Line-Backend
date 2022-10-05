@@ -6,8 +6,8 @@ const isLoggedIn = async (req, res, next) => {
         const token = bearerToken.slice(7);
 
         if (token === null) {
-            return res.status(500).json({
-                success: 0,
+            return res.status(401).json({
+                success: false,
                 message: 'Not Authorized',
             });
         }
@@ -17,8 +17,8 @@ const isLoggedIn = async (req, res, next) => {
         next();
 
     } catch (error) {
-        return res.status(500).json({
-            success: 0,
+        return res.status(401).json({
+            success: false,
             message: 'Not Authorized',
         });
     }

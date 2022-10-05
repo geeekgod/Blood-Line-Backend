@@ -42,7 +42,7 @@ const googleAuth = async (res, userData) => {
       });
     }
 
-    return res.status(500).json({
+    return res.status(401).json({
       success: false,
       message: 'Not Authorized',
     });
