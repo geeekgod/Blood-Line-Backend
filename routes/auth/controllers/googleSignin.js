@@ -1,58 +1,94 @@
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const { userSchema: User } = require('../../../schema');
+const { userSchema: User, sessionSchema: Session } = require('../../../schema');
 
 const createToken = async (user, secret, expiresIn) => {
-    const {
-        _id, email,
-    } = user
-    return jwt.sign({
-        _id, email,
-    }, secret, { expiresIn })
+  const {
+    uid, email,
+  } = user
+  return jwt.sign({
+    uid, email,
+  }, secret, { expiresIn })
+}
+
+const googleAuth = async (res, userData) => {
+  try {
+    let user = await User.findOne({
+      uid: userData.uid,
+    })
+
+    if (!user) {
+      user = await User.create(userData);
+
+      const accessToken = await createToken(user, process.env.JWT_ACCESS_TOKEN_SECRET, '7d');
+
+      await Session.create({ uid: user.uid, accessToken: accessToken })
+
+      return res.status(200).json({
+        success: true,
+        user: user,
+        accessToken,
+      });
+    }
+
+    if (user.email) {
+      const accessToken = await createToken(user, process.env.JWT_ACCESS_TOKEN_SECRET, '7d');
+
+      await Session.create({ uid: user.uid, accessToken: accessToken })
+      return res.status(200).json({
+        success: true,
+        user: user,
+        accessToken,
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: 'Not Authorized',
+    });
+  }
+  catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 }
 
 const googleSignin = async (req, res) => {
-    try {
+  try {
 
-        const { first_name, last_name, email, image_url, token, google_id, access_token, } = req.body;
+    let userData = null
 
-        let user = await User.findOne({
-            email,
-        })
+    const { accessToken } = req.body;
 
-        if (!user) {
-            user = await User.create({
-                first_name, last_name, email, image_url, token, google_id, access_token,
-            });
+    if (!accessToken) return res.status(403).json({ message: "google accesToken not present" })
 
-            const bearer_token = await createToken(user, process.env.SECRET, '7d');
+    axios.get("https://www.googleapis.com/oauth2/v1/userinfo", {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }).then((googleResp) => {
+      userData = {
+        uid: googleResp.data.id,
+        name: googleResp.data.name,
+        email: googleResp.data.email,
+        imageUrl: googleResp.data.picture
+      }
 
-            return res.status(200).json({
-                success: 1,
-                is_complete: false,
-                bearer_token,
-            });
-        }
+      googleAuth(res, userData);
 
-        if (user.token === token) {
-            const bearer_token = await createToken(user, process.env.SECRET, '7d');
-            return res.status(200).json({
-                success: 1,
-                is_complete: user.is_complete,
-                bearer_token,
-            });
-        }
+    }).catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: err
+      })
+    })
 
-        return res.status(500).json({
-            success: 0,
-            message: 'Not Authorized',
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            success: 0,
-            message: error.message,
-        });
-    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 }
 
 module.exports = googleSignin;

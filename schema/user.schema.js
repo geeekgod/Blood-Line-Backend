@@ -1,61 +1,24 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-    first_name: {
-        type: String,
-        minLength: 1,
-    },
-    last_name: {
+    name: {
         type: String,
         minLength: 1,
     },
     email: {
         type: String,
         required: true,
+        unique: true,
     },
-    phone_number: {
+    uid: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    imageUrl: {
         type: String,
     },
-    token: {
-        type: String,
-    },
-    access_token: {
-        type: String,
-    },
-    google_id: {
-        type: String,
-    },
-    lat: {
-        type: String,
-    },
-    long: {
-        type: String,
-    },
-    address: {
-        type: String,
-    },
-    city: {
-        type: String,
-    },
-    state: {
-        type: String,
-    },
-    country: {
-        type: String,
-    },
-    pincode: {
-        type: String,
-    },
-    blood_group: {
-        type: String,
-    },
-    image_url: {
-        type: String,
-    },
-    last_logged_in: {
-        type: String,
-    },
-    is_complete: {
+    isProfile: {
         type: Boolean,
         default: false,
     }
