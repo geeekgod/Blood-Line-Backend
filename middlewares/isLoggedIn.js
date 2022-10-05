@@ -12,7 +12,7 @@ const isLoggedIn = async (req, res, next) => {
             });
         }
 
-        const user = jwt.verify(token, process.env.SECRET);
+        const user = jwt.verify(bearerToken, process.env.JWT_ACCESS_TOKEN_SECRET);
         req.user = user;
         next();
 

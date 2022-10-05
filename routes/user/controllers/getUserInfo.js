@@ -2,12 +2,8 @@ const { userSchema: User } = require('../../../schema');
 
 const getUserInfo = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id)
-
-        user.token = undefined;
-        user.google_id = undefined;
-        user.access_token = undefined;
-
+        const user = await User.findOne({ uid: req.user.uid })
+        console.log(user);
         return res.status(200).json({
             success: 1,
             data: user,
