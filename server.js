@@ -11,22 +11,21 @@ mongoose.connect(process.env.MONGO_DB_STRING);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
+db.once("open", () => {
     console.log("DB connected successfully");
+
+    server.use(cors({
+        origin: true,
+        credentials: true,
+        methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        preflightContinue: true
+    }));
+    server.use(bodyParser.urlencoded({ extended: true }))
+    server.use(bodyParser.json());
+    server.use(routes);
+
+    server.listen(port, () => {
+        console.log(`Server ready at http://localhost:${port}`)
+    })
 });
-
-
-server.use(cors({
-    origin: true,
-    credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    preflightContinue: true
-}));
-server.use(bodyParser.urlencoded({ extended: true }))
-server.use(bodyParser.json());
-server.use(routes);
-
-server.listen(port, () => {
-    console.log(`Server ready at http://localhost:${port}`)
-})
