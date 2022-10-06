@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const isLoggedIn = require('../../middlewares/isLoggedIn');
 const {
-    getUserInfo,
+    getProfileInfo, createProfile,
 } = require('./controllers')
 
 
-router.get('/', isLoggedIn, getUserInfo);
+router.get('/', isLoggedIn, getProfileInfo);
+router.post('/', isLoggedIn, createProfile);
 
 module.exports = router;
