@@ -4,10 +4,10 @@ const createProfile = async (req, res) => {
     try {
         const { phone, city, pin, bloodGroup } = req.body;
 
-        const user = await User.findOne({ uid: req.user.uid })
-        const profile = await Profile.findOne({ uid: user.uid })
+        const user = await User.findOne({ uid: req.user.uid });
+        const profile = await Profile.findOne({ uid: user.uid });
 
-        if (profile) return res.status(401).json({ success: false, message: "profile already exists" })
+        if (profile) return res.status(400).json({ success: false, message: "profile already exists" })
 
         if (!phone || !city || !bloodGroup) return res.status(400).json({ success: false, message: "incomplete data" })
 
@@ -15,7 +15,7 @@ const createProfile = async (req, res) => {
             uid: user.uid,
             phone: phone,
             city: city,
-            pin: pin,
+            pin: pin ? pin : "",
             bloodGroup: bloodGroup
         })
 
