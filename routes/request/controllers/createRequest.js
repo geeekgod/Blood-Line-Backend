@@ -20,10 +20,7 @@ const createRequest = async (req, res) => {
             city: city,
             pin: pin,
             bloodGroup: bloodGroup,
-            location: {
-                long: long,
-                lat: lat
-            }
+            location: [long, lat]
 
         })
 
