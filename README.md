@@ -35,13 +35,16 @@ npm install
 - Start the server
 
 ### Development
-If using yarn as package manager
+- Make sure you have pm2 installed in your server
+- If using yarn as package manager
 ```
-yarn dev
+yarn
+pm2 start server.js --name bloodline-api
 ```
-If using npm as package manager
+- If using npm as package manager
 ```
-npm run dev
+npm install
+pm2 start server.js --name bloodline-api
 ```
 <br><br>
 
