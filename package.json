@@ -7,7 +7,7 @@
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
-  "author": "sumit",
+  "author": "BloodLine",
   "license": "ISC",
   "dependencies": {
     "@adminjs/express": "^5.1.0",
