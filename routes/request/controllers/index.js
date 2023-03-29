@@ -1,11 +1,13 @@
 const createRequest = require('./createRequest');
 const getRequests = require('./getRequests');
-const saveRequests = require('./saveRequests');
-const deleteSavedRequest = require('./deleteSavedRequest');
+const nearRequest = require('./nearRequest');
+const savedRequests = require('./savedRequests');
+const saveRequest = require('./saveRequest');
 
 module.exports = {
     getRequests,
+    nearRequest,
     createRequest,
-    saveRequests,
-    deleteSavedRequest,
+    saveRequest,
+    savedRequests
 }

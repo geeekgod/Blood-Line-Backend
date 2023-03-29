@@ -33,14 +33,8 @@ const RequestSchema = new mongoose.Schema({
     required: true,
   },
   location: {
-    long: {
-      type: Number,
-      required: true
-    },
-    lat: {
-      type: Number,
-      required: true
-    },
+    type: [Number],
+    required: true
   }
 });
 
