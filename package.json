@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon dist/server.js",
-    "build": "rimraf dist && tsc -p tsconfig.json",
+    "dev": "nodemon server.ts",
+    "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js"
   },
   "author": "BloodLine",
@@ -28,6 +28,7 @@
     "mongoose": "^6.6.4",
     "react": "^18.2.0",
     "simple-oauth2": "^4.3.0",
+    "ts-node": "^10.9.1",
     "tslib": "^2.5.0"
   },
   "devDependencies": {

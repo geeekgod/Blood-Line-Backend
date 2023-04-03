@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Dashboard = () => {
+const Dashboard: React.FunctionComponent = () => {
   return (
     <div>Dashboard</div>
   )
