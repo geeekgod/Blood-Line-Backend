@@ -12,21 +12,21 @@ REST APIs for BloodLine mobile app.
 
 ### Installation Guide
 - Clone the Repo
-```
+```sh
 git clone https://github.com/thisisrishabh22/Blood-Line-Backend.git
 ```
 - Change the directory to project
-```
+```sh
 cd Blood-Line-Backend\
 ```
 - Install Packages
 
 If using yarn as package manager
-```
+```sh
 yarn
 ```
 If using npm as package manager
-```
+```sh
 npm install
 ```
 ### Configuration for REST API
@@ -35,17 +35,34 @@ npm install
 - Start the server
 
 ### Development
+
+1. Using PM2
+
 - Make sure you have pm2 installed in your server
 - If using yarn as package manager
-```
+```sh
 yarn
 pm2 start server.js --name bloodline-api
 ```
 - If using npm as package manager
-```
+```sh
 npm install
 pm2 start server.js --name bloodline-api
 ```
+
+2. Using Docker
+
+- Make sure you have docker and docker-compose installed on your system
+
+- Build the Images
+```sh
+docker-compose build
+```
+- Run the containers in daemon
+```sh
+docker-compose up -d
+```
+
 <br><br>
 
 ## Contributors 🌟
