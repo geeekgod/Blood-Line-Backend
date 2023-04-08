@@ -14,10 +14,6 @@ import session from 'express-session';
 mongoose.connect(process.env.MONGO_DB_STRING!);
 
 
-const dashboard = {
-    component: AdminJS.bundle('./admin/dashboard'),
-};
-
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', async () => {
@@ -25,7 +21,6 @@ db.once('open', async () => {
     console.log('DB connected successfully');
 
     const adminJsOptions = {
-        dashboard,
         resources: [
             userSchema,
             sessionSchema,
