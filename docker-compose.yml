@@ -1,0 +1,31 @@
+version: "3"
+services:
+  nodeapp:
+    container_name: bloodline_api
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "4561:4561"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    environment:
+      WAIT_HOSTS: mongodb:27017
+    networks:
+      - node-webapp-network
+  mongodb:
+    container_name: mongodb
+    image: mongo:6.0
+    volumes:
+      - ~/mongo:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - node-webapp-network
+networks:
+  node-webapp-network:
+    driver: bridge
